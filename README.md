@@ -1,7 +1,5 @@
 # La Caverna de Wheatley
 
-![Caverna de Wheatley]
-
 ## Descripción del Proyecto
 
 La Caverna de Wheatley es un proyecto de realidad virtual construido con la biblioteca A-Frame y tecnologías web. Inspirado en el juego "Portal", el proyecto ofrece a los usuarios la experiencia de explorar un entorno interactivo con controles de movimiento, la capacidad de lanzar objetos y la presencia de un modal de Bootstrap para interacciones adicionales. Los elementos clave incluyen controles WASD, lanzamiento de esferas al hacer clic en objetos específicos y un entorno visualmente atractivo. Este proyecto proporciona una experiencia inmersiva y divertida para los entusiastas de la realidad virtual y los juegos inspirados en "Portal".

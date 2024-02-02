@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Caverna de Wheatley</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <script src="https://unpkg.com/aframe-environment-component@1.3.3/dist/aframe-environment-component.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@6.2.0/dist/aframe-extras.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@v4.2.2/dist/aframe-physics-system.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-extras@2.0.0/dist/aframe-physics-extras.min.js"></script>
+
+  <style>
+    nav {
+      position: fixed;
+      z-index: 10;
+      bottom: 0;
+      margin-bottom: 50px;
+      width: 100%;
+      text-align: center;
+    }
+  </style>
+
+</head>
+<body>
+
+  <nav>
+    <button type="button" class="btn btn-primary" onclick="toggleWASDControls()">wasd-controls</button>
+  </nav>
+
+  <div class="modal fade" id="miModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Ducky </h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body"> 
+          <p>Estamos procesando nuevas funcionalidades, ¡espera y verás!
+            <ul>
+                <li>Animaciones de objetos 3D</li>
+                <li>Nuevas físicas</li>
+                <li>Nuevas interacciones</li>
+            </ul>
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Escena A-Frame -->
+  <a-scene physics="gravity: -9.8" cursor="rayOrigin: mouse; fuse: true;">
+    <!-- Cámara y arma -->
+    <a-entity id="cameraEntity" camera look-controls wasd-controls="enabled: false;" position="0 1.6 0">
+      <a-entity position="0 0 -1" geometry="primitive: ring; radiusInner: 0.015; radiusOuter: .017" material="color: white; shader: flat; opacity: .7"></a-entity>
+      <a-entity gltf-model="assets/portal_gun2.glb" scale="10 10 10" position="0.3 -1 -.5" rotation="0 180 0"></a-entity>
+    </a-entity>
+    <!-- Entorno -->
+    <a-entity environment="preset: moon; groundColor: #222; grid: cross; skyColor: black; shadow: false; fog: 0.1 " position="0 0 0">
+      <a-sky id="background" src="https://cdn.aframe.io/a-painter/images/sky.jpg" theta-length="90" radius="100"></a-sky>
+    </a-entity>
+
+    <a-box scale="33 1 33" position="0 -.5 -5" color="white" opacity="0" static-body></a-box>
+    <a-plane position="0 -30 0" scale="1000 1000 1000" color="black" rotation="-90 0 0"></a-plane>
+    <a-plane position="7.6 1 -5" scale="10 5 10" color="white" rotation="0 -90  0" opacity="0" static-body></a-plane>
+    <a-sphere position="-.5 0 -4" scale="18 18 18" opacity="0.3"></a-sphere>
+
+    <!-- Objetos en la escena -->
+    <a-entity gltf-model="assets/portal-test-chamber-nolaser.glb" scale="1 1 1" position="0 .01 -15" rotation="0 0 0"></a-entity>
+
+    <a-entity gltf-model="assets/portal-turret.glb" scale="1 1 1" position="-4 0 -8" rotation="0 90 0" lanzador-de-objetos></a-entity>
+    <a-entity gltf-model="assets/portal-turret.glb" scale="1 1 1" position="-4 0 -5.5" rotation="0 90 0" lanzador-de-objetos></a-entity>
+
+
+    <a-box opacity="0" scale="1 1 1" position="0 10 -8" dynamic-body>
+      <a-entity gltf-model="assets/portal_cube.glb" scale=".22 .22 .22" position="0 0 0"></a-entity>
+    </a-box>
+    <a-box opacity="0" scale="1 1 1" position="3 10 -8" dynamic-body>
+      <a-entity gltf-model="assets/portal_cube.glb" scale=".22 .22 .22" position="0 0 0"></a-entity>
+    </a-box>
+
+    <a-box opacity="0" scale="1 1 1" position="3.5 .4 -5.5" dynamic-body onclick="abrirModal()">
+      <a-entity gltf-model="assets/duck.glb" scale=".3 .3 .3" position="0 0 0" rotation="0 -45 0"></a-entity>
+    </a-box>
+
+    <a-entity rotation="0 0 0" position="0 3.5 -3" animation="property: rotation; to: 0 -360 0; loop: true; dur: 9000">
+      <a-entity gltf-model="assets/portal-wheatley.glb" scale=".08 .08 .08s" position="20 0 0" rotation="-90 -90 -90"></a-entity>
+    </a-entity>
+
+  </a-scene>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+
+  <!-- Scripts adicionales -->
+  <script>
+    // Función para toggle los controles WASD
+    var areWASDControlsEnabled = false;
+    function toggleWASDControls() {
+      areWASDControlsEnabled = !areWASDControlsEnabled;
+      var camera = document.getElementById('cameraEntity');
+      camera.setAttribute('wasd-controls', 'enabled', areWASDControlsEnabled);
+    }
+
+    // Componente para lanzar objetos al hacer clic
+    AFRAME.registerComponent('lanzador-de-objetos', {
+      init: function () {
+        var el = this.el;
+        el.addEventListener('click', function () {
+          var objetoLanzado = document.createElement('a-sphere');
+          objetoLanzado.setAttribute('radius', '0.02');
+          objetoLanzado.setAttribute('color', 'darkred');
+          objetoLanzado.setAttribute('position', { x: 0, y: 0, z: 0 })
+          var posicionInicial = el.getAttribute('position');
+          objetoLanzado.setAttribute('position', { x: posicionInicial.x, y: posicionInicial.y + 0.85, z: posicionInicial.z });
+          objetoLanzado.setAttribute('dynamic-body', '');
+          objetoLanzado.setAttribute('velocity', { x: 20, y: 0, z: 0 });
+          el.sceneEl.appendChild(objetoLanzado);
+        });
+      }
+    });
+
+    // Función para abrir el modal al hacer clic en un objeto específico
+    function abrirModal() {
+      var myModal = new bootstrap.Modal(document.getElementById('miModal'));
+      myModal.show();
+    }
+  </script>
+
+</body>
+</html>
